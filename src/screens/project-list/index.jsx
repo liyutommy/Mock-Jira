@@ -1,7 +1,7 @@
 import {SearchPanel} from "./SearchPanel";
 import {List} from "./List";
 import {useEffect, useState} from "react";
-import {cleanObject} from "../../utils";
+import {cleanObject, useDebounce, useMount} from "../../utils";
 import qs from "qs";
 
 const apiURL = process.env.REACT_APP_API_URL
@@ -13,6 +13,9 @@ export const ProjectListScreen = () => {
     personId: ''
   })
 
+  // 防抖
+  const deDebounceEnter = useDebounce(enter, 2000)
+
   // 下面的list列表
   const [list, setList] = useState([])
 
@@ -21,18 +24,18 @@ export const ProjectListScreen = () => {
 
   // 观测enter参数，发送fetch get请求
   useEffect(() => {
-    // 一开始
-    fetch(`${apiURL}/projects?${qs.stringify(cleanObject(enter))}`)
+    // 一开始name是空的, 要用cleanObject清除name这个key
+    fetch(`${apiURL}/projects?${qs.stringify(cleanObject(deDebounceEnter))}`)
       .then(async response => {
         if (response.ok) {
           // 给list赋值
           setList(await response.json())
         }
       })
-  }, [enter])
+  }, [deDebounceEnter])
 
 
-  useEffect(() => {
+  useMount(() => {
     fetch(`${apiURL}/users`)
       .then(async response => {
         if (response.ok) {
@@ -40,7 +43,7 @@ export const ProjectListScreen = () => {
           setUsers(await response.json())
         }
       })
-  }, [])
+  })
 
 
   return (
