@@ -14,7 +14,7 @@ export const ProjectListScreen = () => {
   })
 
   // 防抖
-  const deDebounceEnter = useDebounce(enter, 2000)
+  const deDebounceEnter = useDebounce(enter, 200)
 
   // 下面的list列表
   const [list, setList] = useState([])
