@@ -1,7 +1,7 @@
 // 0是有效的key, ！！就是转化为boolean
 import {useEffect, useState} from "react";
 
-export const isFalsy = (value: any) => value === 0 ? false : !value;
+export const isFalsy = (value: unknown):boolean => value === 0 ? false : !value;
 
 // 在一个函数中，改变传入的对象本身是不好的
 export const cleanObject = (object: object) => {
@@ -25,7 +25,8 @@ export const useMount = (callback: () => void) => {
 }
 
 // 这里就是防抖
-export const useDebounce = (value: any, delay?: number) => {
+// 后面用泛型来修改
+export const useDebounce = (value: unknown, delay?: number):any => {
   const [debounceValue, setDebounceValue] = useState(value);
 
   useEffect(() => {
