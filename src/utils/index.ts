@@ -26,7 +26,7 @@ export const useMount = (callback: () => void) => {
 
 // 这里就是防抖
 // 后面用泛型来修改
-export const useDebounce = (value: unknown, delay?: number):any => {
+export const useDebounce = <T>(value: T, delay?: number):T => {
   const [debounceValue, setDebounceValue] = useState(value);
 
   useEffect(() => {
